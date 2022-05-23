@@ -213,9 +213,148 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
         root.color = PriceNode.BLACK;
     }
 
+    public void remove(PriceNode<Integer, OrderType> v){
+        PriceNode<Integer, OrderType> z = search(v.key);
+
+        PriceNode<Integer, OrderType> x = nil;
+        PriceNode<Integer, OrderType> y = nil;
+
+        if (isNil(z.left) || isNil(z.right)) {
+            y = z;
+        } else {
+            y = treeSuccessor(z);
+        }
+
+        if (!isNil(y.left)){
+            x = y.left;
+        } else{
+            x = y.right;
+        }
+
+        // link x's parent to y's parent
+        x.parent = y.parent;
+
+        // If y's parent is nil, then x is the root
+        if (isNil(y.parent))
+            root = x;
+
+        // else if y is a left child, set x to be y's left sibling
+        else if (!isNil(y.parent.left) && y.parent.left == y)
+            y.parent.left = x;
+
+        // else if y is a right child, set x to be y's right sibling
+        else if (!isNil(y.parent.right) && y.parent.right == y)
+            y.parent.right = x;
+
+        // if y != z, transfer y's satellite data into z.
+        if (y != z){
+            z.key = y.key;
+        }
+
+        // If y's color is black, it is a violation of the
+        // PriceNode properties so call removeFixup()
+        if (y.color == PriceNode.BLACK)
+            removeFixup(x);
+    }
+
+    private void removeFixup(PriceNode<Integer,OrderType> x) {
+        PriceNode<Integer, OrderType> w;
+
+        // While we haven't fixed the tree completely...
+        while (x != root && x.color == PriceNode.BLACK){
+
+            // if x is its parent's left child
+            if (x == x.parent.left){
+
+                // set w = x's sibling
+                w = x.parent.right;
+
+                // Case 1, w's color is red.
+                if (w.color == PriceNode.RED){
+                    w.color = PriceNode.BLACK;
+                    x.parent.color = PriceNode.RED;
+                    leftRotate(x.parent);
+                    w = x.parent.right;
+                }
+
+                // Case 2, both of w's children are black
+                if (w.left.color == PriceNode.BLACK &&
+                        w.right.color == PriceNode.BLACK){
+                    w.color = PriceNode.RED;
+                    x = x.parent;
+                }
+                // Case 3 / Case 4
+                else{
+                    // Case 3, w's right child is black
+                    if (w.right.color == PriceNode.BLACK){
+                        w.left.color = PriceNode.BLACK;
+                        w.color = PriceNode.RED;
+                        rightRotate(w);
+                        w = x.parent.right;
+                    }
+                    // Case 4, w = black, w.right = red
+                    w.color = x.parent.color;
+                    x.parent.color = PriceNode.BLACK;
+                    w.right.color = PriceNode.BLACK;
+                    leftRotate(x.parent);
+                    x = root;
+                }
+            }
+            // if x is its parent's right child
+            else{
+
+                // set w to x's sibling
+                w = x.parent.left;
+
+                // Case 1, w's color is red
+                if (w.color == PriceNode.RED){
+                    w.color = PriceNode.BLACK;
+                    x.parent.color = PriceNode.RED;
+                    rightRotate(x.parent);
+                    w = x.parent.left;
+                }
+
+                // Case 2, both of w's children are black
+                if (w.right.color == PriceNode.BLACK &&
+                        w.left.color == PriceNode.BLACK){
+                    w.color = PriceNode.RED;
+                    x = x.parent;
+                }
+
+                // Case 3 / Case 4
+                else{
+                    // Case 3, w's left child is black
+                    if (w.left.color == PriceNode.BLACK){
+                        w.right.color = PriceNode.BLACK;
+                        w.color = PriceNode.RED;
+                        leftRotate(w);
+                        w = x.parent.left;
+                    }
+
+                    // Case 4, w = black, and w.left = red
+                    w.color = x.parent.color;
+                    x.parent.color = PriceNode.BLACK;
+                    w.left.color = PriceNode.BLACK;
+                    rightRotate(x.parent);
+                    x = root;
+                }
+            }
+        }// end while
+
+        // set x to black to ensure there is no violation of
+        // RedBlack tree Properties
+        x.color = PriceNode.BLACK;
+    }
+
+    public PriceNode<Integer,OrderType> treeSuccessor(PriceNode<Integer,OrderType> z) {
+        return nil;
+    }
+
+    public PriceNode<Integer,OrderType> search(Integer key) {
+        return nil;
+    }
 
     private boolean isNil(PriceNode<Integer,OrderType> node) {
         return node == nil;
     }
-
 }
