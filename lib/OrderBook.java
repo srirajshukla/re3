@@ -1,10 +1,10 @@
 public class OrderBook {
-    RBTree<BuyOrder> buyTree;
-    RBTree<SellOrder> sellTree;
+    OrderTree<BuyOrder> buyTree;
+    OrderTree<SellOrder> sellTree;
 
     public OrderBook() {    // Default constructor
-        buyTree = new RBTree<BuyOrder>();
-        sellTree = new RBTree<SellOrder>();
+        buyTree = new OrderTree<>();
+        sellTree = new OrderTree<>();
     }
 
     public void addOrder(BuyOrder order){
