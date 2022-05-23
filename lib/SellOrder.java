@@ -10,7 +10,7 @@ public class SellOrder extends Order implements Comparable<SellOrder> {
         this.price = price;
         this.symbol = symbol;
         this.timestamp = timestamp;
-        this.type = BUY;
+        this.type = SELL;
     }
 
     @Override
