@@ -10,6 +10,11 @@ class ListNode{
         this.next = next;
         this.order = order;
     }
+
+    @Override
+    public String toString(){
+        return order.toString();
+    }
 }
 
 public class DoubleLinkedList {
@@ -66,5 +71,20 @@ public class DoubleLinkedList {
             curr = curr.next;
         }
         System.out.println();
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        ListNode curr = head;
+        while(curr != null){
+            sb.append("\t\t\t\t");
+            sb.append(curr);
+            sb.append(", \n");
+            curr = curr.next;
+        }
+
+        return sb.toString();
     }
 }

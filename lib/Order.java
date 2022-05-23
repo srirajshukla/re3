@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public abstract class Order{
         sb.append(" [id=");
         sb.append(id);
         sb.append(", timestamp=");
-        sb.append(timestamp);
+        sb.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
         sb.append(", volume=");
         sb.append(volume);
         sb.append(", price=");

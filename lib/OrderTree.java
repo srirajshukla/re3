@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * RedBlack Tree Node
@@ -37,6 +39,11 @@ class PriceNode<T extends Comparable<T>, OrderType extends Comparable<OrderType>
         this();
         this.key = key;
 	}
+
+    @Override
+    public String toString(){
+        return "\n\t\tPrice: " + this.key + " [ \n" + this.orders.toString() + " \t\t ]";
+    }
 }
 
 public class OrderTree<OrderType extends Comparable<OrderType>> {
@@ -101,6 +108,7 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
     }
 
     public PriceNode<Integer, OrderType> insert(Integer price){
+        // todo: multiple nodes with same price can be inserted, fix it
         PriceNode<Integer, OrderType> z  = new PriceNode<>(price);
         insert(z);
         return z;
@@ -389,5 +397,27 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
 
     private boolean isNil(PriceNode<Integer,OrderType> node) {
         return node == nil;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        Queue<PriceNode<Integer, OrderType>> toVisit = new LinkedList<>();
+
+        toVisit.add(root);
+
+        while(!toVisit.isEmpty()){
+            PriceNode<Integer, OrderType> curr = toVisit.poll();
+            sb.append(curr.toString());
+
+            if ( !isNil(curr.left))
+                toVisit.add(curr.left);
+
+            if (!isNil(curr.right))
+                toVisit.add(curr.right);
+        }
+
+        return sb.toString();
     }
 }
