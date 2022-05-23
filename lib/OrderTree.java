@@ -13,7 +13,7 @@ class PriceNode<T extends Comparable<T>, OrderType extends Comparable<OrderType>
 	public T key;
 
     // the reference to the double linked list
-    public DoubleLinkedList<OrderType> orders;
+    public DoubleLinkedList orders;
 
     /** Parent of node */
     PriceNode<T, OrderType> parent;
@@ -29,7 +29,7 @@ class PriceNode<T extends Comparable<T>, OrderType extends Comparable<OrderType>
         parent = null;
         left = null;
         right = null;
-        orders = new DoubleLinkedList<>();
+        orders = new DoubleLinkedList();
     }
 
 	// Constructor which sets key to the argument.
@@ -100,8 +100,10 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
         y.parent = x;
     }
 
-    public void insert(Integer price){
-        insert(new PriceNode<>(price));
+    public PriceNode<Integer, OrderType> insert(Integer price){
+        PriceNode<Integer, OrderType> z  = new PriceNode<>(price);
+        insert(z);
+        return z;
     }
 
     private void insert(PriceNode<Integer, OrderType> z){

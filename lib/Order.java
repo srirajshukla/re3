@@ -33,4 +33,12 @@ public abstract class Order{
         sb.append("]");
         return sb.toString();
     }
+
+    public boolean isEqual(UUID id){
+        return this.id == id;
+    }
+
+    public boolean isEqual(Order order){
+        return this.id == order.id;
+    }
 }

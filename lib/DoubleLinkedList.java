@@ -1,28 +1,28 @@
-class ListNode<OrderType>{
-    int key;
-    ListNode<OrderType> next;
-    ListNode<OrderType> prev;
-    OrderType value;
+import java.util.UUID;
+
+class ListNode{
+    ListNode next;
+    ListNode prev;
+    Order order;
     
-    public ListNode(int key, ListNode<OrderType> prev, ListNode<OrderType> next, OrderType value){
-        this.key = key;
+    public ListNode(ListNode prev, ListNode next, Order order){
         this.prev = prev;
         this.next = next;
-        this.value = value;
+        this.order = order;
     }
 }
 
-public class DoubleLinkedList<OrderType> {
-    ListNode<OrderType> head;
-    ListNode<OrderType> tail;
+public class DoubleLinkedList {
+    ListNode head;
+    ListNode tail;
 
     public DoubleLinkedList(){
         head = null;
         tail = null;
     }
 
-    public ListNode<OrderType> add(int key){
-        ListNode<OrderType> newNode = new ListNode<OrderType>(key, null, null, null);
+    public ListNode add(Order order){
+        ListNode newNode = new ListNode(null, null, order);
 
         if(head == null){
             head = newNode;
@@ -37,10 +37,10 @@ public class DoubleLinkedList<OrderType> {
         return newNode;
     }
 
-    public void remove(int key){
-        ListNode<OrderType> curr = head;
+    public void remove(UUID orderID){
+        ListNode curr = head;
         while(curr != null){
-            if(curr.key == key){
+            if(curr.order.isEqual(orderID)){
                 if(curr == head){
                     head = curr.next;
                 }
@@ -60,9 +60,9 @@ public class DoubleLinkedList<OrderType> {
     }
 
     public void print(){
-        ListNode<OrderType> curr = head;
+        ListNode curr = head;
         while(curr != null){
-            System.out.print(curr.key + " ");
+            System.out.print(curr.order + " ");
             curr = curr.next;
         }
         System.out.println();
