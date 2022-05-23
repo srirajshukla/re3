@@ -1,5 +1,19 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        OrderBook ob = new OrderBook();
+
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 10, 23.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 12, 22.02, "GOOG", new Date()));
+        ob.addOrder(new SellOrder(UUID.randomUUID(), 10, 23.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 2, 27.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 17, 23.02, "GOOG", new Date()));
+        ob.addOrder(new SellOrder(UUID.randomUUID(), 11, 22.02, "GOOG", new Date()));
+
+
+        System.out.println(ob);
     }
 }
