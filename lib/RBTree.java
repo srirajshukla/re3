@@ -4,7 +4,7 @@
  * This node will contain the price level and a Double Linked List
  * reference to all the orders at that price level.
  */
-class RedBlackNode<T extends Comparable<T>> {
+class RedBlackNode<T, OrderType extends Comparable<T>> {
     /** Possible color for this node */
     public static final int BLACK = 0;
     /** Possible color for this node */
@@ -13,14 +13,14 @@ class RedBlackNode<T extends Comparable<T>> {
 	public T key;
 
     // the reference to the double linked list
-    public DoubleLinkedList orders;
+    public DoubleLinkedList<OrderType> orders;
 
     /** Parent of node */
-    RedBlackNode<T> parent;
+    RedBlackNode<T, OrderType> parent;
     /** Left child */
-    RedBlackNode<T> left;
+    RedBlackNode<T, OrderType> left;
     /** Right child */
-    RedBlackNode<T> right;
+    RedBlackNode<T, OrderType> right;
     // the number of elements to the left of each node
     public int numLeft = 0;
     // the number of elements to the right of each node
@@ -35,7 +35,7 @@ class RedBlackNode<T extends Comparable<T>> {
         parent = null;
         left = null;
         right = null;
-        orders = new DoubleLinkedList();
+        orders = new DoubleLinkedList<OrderType>();
     }
 
 	// Constructor which sets key to the argument.
@@ -45,6 +45,6 @@ class RedBlackNode<T extends Comparable<T>> {
 	}
 }
 
-public class RBTree {
+public class RBTree<OrderType> {
     
 }

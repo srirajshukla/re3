@@ -1,25 +1,28 @@
-class ListNode{
+class ListNode<OrderType>{
     int key;
-    ListNode next;
-    ListNode prev;
-    public ListNode(int key, ListNode prev, ListNode next){
+    ListNode<OrderType> next;
+    ListNode<OrderType> prev;
+    OrderType value;
+    
+    public ListNode(int key, ListNode<OrderType> prev, ListNode<OrderType> next, OrderType value){
         this.key = key;
         this.prev = prev;
         this.next = next;
+        this.value = value;
     }
 }
 
-public class DoubleLinkedList {
-    ListNode head;
-    ListNode tail;
+public class DoubleLinkedList<OrderType> {
+    ListNode<OrderType> head;
+    ListNode<OrderType> tail;
 
     public DoubleLinkedList(){
         head = null;
         tail = null;
     }
 
-    public ListNode add(int key){
-        ListNode newNode = new ListNode(key, null, null);
+    public ListNode<OrderType> add(int key){
+        ListNode<OrderType> newNode = new ListNode<OrderType>(key, null, null, null);
 
         if(head == null){
             head = newNode;
@@ -35,7 +38,7 @@ public class DoubleLinkedList {
     }
 
     public void remove(int key){
-        ListNode curr = head;
+        ListNode<OrderType> curr = head;
         while(curr != null){
             if(curr.key == key){
                 if(curr == head){
@@ -57,7 +60,7 @@ public class DoubleLinkedList {
     }
 
     public void print(){
-        ListNode curr = head;
+        ListNode<OrderType> curr = head;
         while(curr != null){
             System.out.print(curr.key + " ");
             curr = curr.next;

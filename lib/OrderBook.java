@@ -1,11 +1,17 @@
 public class OrderBook {
-    RBTree tree;
+    RBTree<BuyOrder> buyTree;
+    RBTree<SellOrder> sellTree;
 
     public OrderBook() {    // Default constructor
-        tree = new RBTree();
+        buyTree = new RBTree<BuyOrder>();
+        sellTree = new RBTree<SellOrder>();
     }
 
-    public void addOrder(){
+    public void addOrder(BuyOrder order){
+
+    }
+
+    public void addOrder(SellOrder order){
 
     }
 
@@ -21,11 +27,12 @@ public class OrderBook {
 
     }
 
-    public getBuyOrders(){
-
+    public BuyOrder[] getBuyOrders(){
+        
+        return null;
     }
 
-    public getSellOrders(){
-
+    public SellOrder[] getSellOrders(){
+        return null;
     }
 }
