@@ -1,7 +1,7 @@
 import java.util.Date;
 import java.util.UUID;
 
-public class SellOrder extends Order implements Comparable<BuyOrder> {
+public class SellOrder extends Order implements Comparable<SellOrder> {
 
     public SellOrder(UUID id, int volume, double price, String symbol, Date timestamp) {
         super();
@@ -14,7 +14,7 @@ public class SellOrder extends Order implements Comparable<BuyOrder> {
     }
 
     @Override
-    public int compareTo(BuyOrder o) {
+    public int compareTo(SellOrder o) {
         if (this.price == o.price){
             return this.timestamp.compareTo(o.timestamp);
         } else if (this.price < o.price){
