@@ -346,12 +346,43 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
         x.color = PriceNode.BLACK;
     }
 
-    public PriceNode<Integer,OrderType> treeSuccessor(PriceNode<Integer,OrderType> z) {
-        return nil;
+    public PriceNode<Integer,OrderType> treeSuccessor(PriceNode<Integer,OrderType> x) {
+        if (!isNil(x.left))
+            return treeMinimum(x.right);
+
+        PriceNode<Integer, OrderType> y = x.parent;
+
+        while(!isNil(y) && x == y.right){
+            x = y;
+            y = y.parent;
+        }
+        return y;
+    }
+
+    public PriceNode<Integer,OrderType> treeMinimum(PriceNode<Integer,OrderType> node) {
+        while(!isNil(node.left))
+            node = node.left;
+        return node;
+    }
+
+    public PriceNode<Integer,OrderType> treeMaximum(PriceNode<Integer,OrderType> node) {
+        while(!isNil(node.right))
+            node = node.right;
+        return node;
     }
 
     public PriceNode<Integer,OrderType> search(Integer key) {
-        return nil;
+        PriceNode<Integer, OrderType> current = root;
+        while(!isNil(current)){
+            if (current.key.equals(key)){
+                return current;
+            } else if (current.key.compareTo(key)<0) {
+                current = current.right;
+            } else{
+                current = current.left;
+            }
+        }
+        return null;
     }
 
     private boolean isNil(PriceNode<Integer,OrderType> node) {
