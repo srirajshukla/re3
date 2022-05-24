@@ -1,3 +1,5 @@
+package orderbook;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -262,7 +264,7 @@ public class OrderTree<OrderType extends Comparable<OrderType>> {
         }
 
         // If y's color is black, it is a violation of the
-        // PriceNode properties so call removeFixup()
+        // orderbook.PriceNode properties so call removeFixup()
         if (y.color == PriceNode.BLACK)
             removeFixup(x);
     }
