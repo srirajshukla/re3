@@ -35,9 +35,6 @@ public class OrderBook {
         if(bestBuy.key == null || key > bestBuy.key){
             bestBuy = tree_node;
         }
-
-        Order ord = (Order) order;
-        orderIdToOrder.put(order.id,ord);
     }
 
     public void addOrder(SellOrder order){
@@ -53,9 +50,6 @@ public class OrderBook {
         if(bestSell.key == null || key > bestSell.key){
             bestSell = tree_node;
         }
-
-        Order ord = (Order) order;
-        orderIdToOrder.put(order.id,ord);
     }
 
     public void deleteOrder(UUID id){
@@ -63,11 +57,9 @@ public class OrderBook {
         if(node.prev == null){
             // not sure how to do this in O(1) time
         }
-        else{
+        else
             node.prev.next = node.next;
-        }
-
-        orderIdToOrder.remove(id);
+        orderIdToNode.remove(id);
     }
     
     public void updateOrderVolume(UUID id, int new_vol){
@@ -99,9 +91,10 @@ public class OrderBook {
     public List<BuyOrder> getBuyOrders(){
         List<BuyOrder> lst = new ArrayList<>();
 
-        for(Order order : orderIdToOrder.values()){
-            if (order.type == 0){
-                if (order instanceof BuyOrder) {
+        for(ListNode node : orderIdToNode.values()){
+            Order order = node.order;
+            if(order.type == 0){
+                if(order instanceof BuyOrder){
                     BuyOrder buyorder = (BuyOrder) order;
                     lst.add(buyorder);
                 }
@@ -114,7 +107,8 @@ public class OrderBook {
     public List<SellOrder> getSellOrders(){
         List<SellOrder> lst = new ArrayList<>();
 
-        for(Order order : orderIdToOrder.values()){
+        for(ListNode node : orderIdToNode.values()){
+            Order order = node.order;
             if (order.type == 1){
                 if (order instanceof SellOrder) {
                     SellOrder sellorder = (SellOrder) order;
