@@ -1,6 +1,7 @@
 package orderbook;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class OrderBook {
     OrderTree<BuyOrder> buyTree;
@@ -9,60 +10,42 @@ public class OrderBook {
     PriceNode<Integer, BuyOrder> bestBuy;
     PriceNode<Integer, SellOrder> bestSell;
 
-    HashMap<Integer, DoubleLinkedList> buyPricetoList;
-    HashMap<Integer, DoubleLinkedList> sellPricetoList;
+    HashMap<UUID, Order> orderIdToOrder;
 
     public OrderBook() {    // Default constructor
         buyTree = new OrderTree<>();
         sellTree = new OrderTree<>();
         bestBuy = buyTree.treeMaximum(buyTree.root);
         bestSell = sellTree.treeMinimum(sellTree.root);
-        buyPricetoList = new HashMap<>();
-        sellPricetoList = new HashMap<>();
+        orderIdToOrder = new HashMap<>();
     }
 
     public void addOrder(BuyOrder order){
         int key = (int)(order.price * 100);
 
-        if(buyPricetoList.containsKey(key)){
-            DoubleLinkedList list = buyPricetoList.get(key);
-            list.add(order);
+        PriceNode<Integer, BuyOrder> node = buyTree.search(key);
+        if (node==null)
+                node = buyTree.insert(key);
+
+        node.orders.add(order);
+
+        if(bestBuy.key == null || key > bestBuy.key){
+            bestBuy = node;
         }
-        else{
-            PriceNode<Integer, BuyOrder> node = buyTree.insert(key);
-            node.orders.add(order);
-            buyPricetoList.put(key, node.orders);
-        }
-
-        // PriceNode<Integer, BuyOrder> node = buyTree.search(key);
-        // if (node==null)
-        //         node = buyTree.insert(key);
-
-        // node.orders.add(order);
-
-        bestBuy = buyTree.treeMaximum(buyTree.root);
     }
 
     public void addOrder(SellOrder order){
         int key = (int)(order.price * 100);
 
-        if(sellPricetoList.containsKey(key)){
-            DoubleLinkedList list = sellPricetoList.get(key);
-            list.add(order);
+        PriceNode<Integer, SellOrder> node = sellTree.search(key);
+        if (node==null)
+            node = sellTree.insert(key);
+
+        node.orders.add(order);
+
+        if(bestSell.key == null || key < bestSell.key){
+            bestSell = node;
         }
-        else{
-            PriceNode<Integer, SellOrder> node = sellTree.insert(key);
-            node.orders.add(order);
-            sellPricetoList.put(key, node.orders);
-        }
-
-        // PriceNode<Integer, SellOrder> node = sellTree.search(key);
-        // if (node==null)
-        //     node = sellTree.insert(key);
-
-        // node.orders.add(order);
-
-        bestSell = sellTree.treeMinimum(sellTree.root);
     }
 
     public void deleteOrder(){
