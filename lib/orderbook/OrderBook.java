@@ -10,66 +10,64 @@ public class OrderBook {
     PriceNode<Integer, BuyOrder> bestBuy;
     PriceNode<Integer, SellOrder> bestSell;
 
-    HashMap<UUID, Order> orderIdToOrder;
+    HashMap<UUID, ListNode> orderIdToNode;
 
     public OrderBook() {    // Default constructor
         buyTree = new OrderTree<>();
         sellTree = new OrderTree<>();
         bestBuy = buyTree.treeMaximum(buyTree.root);
         bestSell = sellTree.treeMinimum(sellTree.root);
-        orderIdToOrder = new HashMap<>();
+        orderIdToNode = new HashMap<>();
     }
 
     public void addOrder(BuyOrder order){
         int key = (int)(order.price * 100);
 
-        PriceNode<Integer, BuyOrder> node = buyTree.search(key);
-        if (node==null)
-                node = buyTree.insert(key);
+        PriceNode<Integer, BuyOrder> tree_node = buyTree.search(key);
+        if (tree_node == null)
+                tree_node = buyTree.insert(key);
 
-        node.orders.add(order);
+        ListNode list_node = tree_node.orders.add(order);
+        orderIdToNode.put(order.id, list_node);
 
         if(bestBuy.key == null || key > bestBuy.key){
-            bestBuy = node;
+            bestBuy = tree_node;
         }
     }
 
     public void addOrder(SellOrder order){
         int key = (int)(order.price * 100);
 
-        PriceNode<Integer, SellOrder> node = sellTree.search(key);
-        if (node==null)
-            node = sellTree.insert(key);
+        PriceNode<Integer, SellOrder> tree_node = sellTree.search(key);
+        if (tree_node == null)
+                tree_node = sellTree.insert(key);
 
-        node.orders.add(order);
+        ListNode list_node = tree_node.orders.add(order);
+        orderIdToNode.put(order.id, list_node);
 
-        if(bestSell.key == null || key < bestSell.key){
-            bestSell = node;
+        if(bestSell.key == null || key > bestSell.key){
+            bestSell = tree_node;
         }
     }
 
     public void deleteOrder(UUID id){
-        Order order = orderIdToOrder.get(id);
-        int key = (int)(order.price * 100);
-
-        if (order.type == 0){
-            PriceNode<Integer , BuyOrder> node = buyTree.search(key);
-            node.orders.remove(id);
+        ListNode node = orderIdToNode.get(id);
+        if(node.prev == null){
+            // not sure how to do this in O(1) time
         }
         else{
-            PriceNode<Integer , SellOrder> node = sellTree.search(key);
-            node.orders.remove(id);
+            node.prev.next = node.next;
         }
     }
     
     public void updateOrderVolume(UUID id, int new_vol){
-        Order order = orderIdToOrder.get(id);
+        Order order = orderIdToNode.get(id).order;
 
         order.volume = new_vol;    // Currently not being sent to tail of the linked list.Need to verify with mentors
     }
 
     public void updateOrderPrice(UUID id, double new_price){
-        Order order = orderIdToOrder.get(id);
+        Order order = orderIdToNode.get(id).order;
 
         deleteOrder(id);
         order.price = new_price;
