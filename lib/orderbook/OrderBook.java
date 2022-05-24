@@ -54,12 +54,29 @@ public class OrderBook {
 
     public void deleteOrder(UUID id){
         ListNode node = orderIdToNode.get(id);
+
         if(node.prev == null){
             // not sure how to do this in O(1) time
         }
         else
             node.prev.next = node.next;
         orderIdToNode.remove(id);
+
+        
+        // updating the bestBuy/bestSell pointer
+        Order order = node.order;
+        int price = (int)(order.price * 100);
+
+        if(order.type == 0){
+            if(price == bestBuy.key && bestBuy.orders.head == null){
+                bestBuy = buyTree.treeMaximum(buyTree.root);
+            }
+        }
+        else{
+            if(price == bestSell.key && bestSell.orders.head == null){
+                bestSell = sellTree.treeMaximum(sellTree.root);
+            }
+        }
     }
     
     public void updateOrderVolume(UUID id, int new_vol){

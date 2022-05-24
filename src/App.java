@@ -6,7 +6,6 @@ import orderbook.SellOrder;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
