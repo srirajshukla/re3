@@ -48,16 +48,44 @@ public class OrderBook {
         }
     }
 
-    public void deleteOrder(){
+    public void deleteOrder(UUID id){
+        Order order = orderIdToOrder.get(id);
+        int key = (int)(order.price * 100);
 
+        if (order.type == 0){
+            PriceNode<Integer , BuyOrder> node = buyTree.search(key);
+            node.orders.remove(id);
+        }
+        else{
+            PriceNode<Integer , SellOrder> node = sellTree.search(key);
+            node.orders.remove(id);
+        }
     }
     
-    public void updateOrderVolume(){
+    public void updateOrderVolume(UUID id, int new_vol){
+        Order order = orderIdToOrder.get(id);
 
+        order.volume = new_vol;    // Currently not being sent to tail of the linked list.Need to verify with mentors
     }
 
-    public void updateOrderPrice(){
+    public void updateOrderPrice(UUID id, double new_price){
+        Order order = orderIdToOrder.get(id);
 
+        deleteOrder(id);
+        order.price = new_price;
+
+        if (order.type == 0){
+            if (order instanceof BuyOrder) {
+                BuyOrder buyorder = (BuyOrder) order;
+                addOrder(buyorder);
+            }
+        }
+        else{
+            if (order instanceof SellOrder) {
+                SellOrder sellorder = (SellOrder) order;
+                addOrder(sellorder);
+            }
+        }
     }
 
     public BuyOrder[] getBuyOrders(){
