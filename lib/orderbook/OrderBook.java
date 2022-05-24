@@ -1,7 +1,9 @@
 package orderbook;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.List;
 
 public class OrderBook {
     OrderTree<BuyOrder> buyTree;
@@ -32,6 +34,9 @@ public class OrderBook {
         if(bestBuy.key == null || key > bestBuy.key){
             bestBuy = node;
         }
+
+        Order ord = (Order) order;
+        orderIdToOrder.put(order.id,ord);
     }
 
     public void addOrder(SellOrder order){
@@ -46,6 +51,9 @@ public class OrderBook {
         if(bestSell.key == null || key < bestSell.key){
             bestSell = node;
         }
+
+        Order ord = (Order) order;
+        orderIdToOrder.put(order.id,ord);
     }
 
     public void deleteOrder(UUID id){
@@ -60,6 +68,8 @@ public class OrderBook {
             PriceNode<Integer , SellOrder> node = sellTree.search(key);
             node.orders.remove(id);
         }
+
+        orderIdToOrder.remove(id);
     }
     
     public void updateOrderVolume(UUID id, int new_vol){
@@ -88,13 +98,34 @@ public class OrderBook {
         }
     }
 
-    public BuyOrder[] getBuyOrders(){
-        
-        return null;
+    public List<BuyOrder> getBuyOrders(){
+        List<BuyOrder> lst = new ArrayList<>();
+
+        for(Order order : orderIdToOrder.values()){
+            if (order.type == 0){
+                if (order instanceof BuyOrder) {
+                    BuyOrder buyorder = (BuyOrder) order;
+                    lst.add(buyorder);
+                }
+            }
+        }
+
+        return lst;
     }
 
-    public SellOrder[] getSellOrders(){
-        return null;
+    public List<SellOrder> getSellOrders(){
+        List<SellOrder> lst = new ArrayList<>();
+
+        for(Order order : orderIdToOrder.values()){
+            if (order.type == 1){
+                if (order instanceof SellOrder) {
+                    SellOrder sellorder = (SellOrder) order;
+                    lst.add(sellorder);
+                }
+            }
+        }
+
+        return lst;
     }
 
     @Override
