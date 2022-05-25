@@ -24,10 +24,9 @@ public class DataGenerator {
             double price = r1.nextDouble() * (maxBuyPrice - minBuyPrice) + minBuyPrice;
             price = price * 100;
             price = Math.ceil(price);
-            // round about 70% of the time, price is a multiple of 5
-            if (r1.nextDouble() > 0.3){
-                price += (5 - (price % 5))%5;
-            }
+            
+            // round the prices to multiple of 5
+            price += (5 - (price % 5))%5;
 
             int userId = r1.nextInt(10) + 1;
 
@@ -43,7 +42,7 @@ public class DataGenerator {
         List<BuyOrder> orders = generateBuyOrder(symbol, orderQty, meanPrice, variance);
 
         String filename = symbol+ Math.random() + ".orders";
-        PrintWriter writer = new PrintWriter(filename, StandardCharsets.UTF_8);
+        PrintWriter writer = new PrintWriter(filename, "UTF-8");
 
         for (BuyOrder order : orders){
             writer.println(order.toString());

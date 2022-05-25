@@ -41,7 +41,7 @@ public class App {
             ob.addOrder(order);
         }
 
-
+        System.out.println(ob);
 
         List<SellOrder> lst = ob.getSellOrders();
         System.out.println(lst);
