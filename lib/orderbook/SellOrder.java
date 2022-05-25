@@ -5,9 +5,10 @@ import java.util.UUID;
 
 public class SellOrder extends Order implements Comparable<SellOrder> {
 
-    public SellOrder(UUID id, int volume, double price, String symbol, Date timestamp) {
+    public SellOrder(UUID id, int userId, int volume, double price, String symbol, Date timestamp) {
         super();
         this.id = id;
+        this.userId = userId;
         this.volume = volume;
         this.price = price;
         this.symbol = symbol;

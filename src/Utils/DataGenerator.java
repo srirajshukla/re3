@@ -4,6 +4,7 @@ import orderbook.BuyOrder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class DataGenerator {
@@ -27,8 +28,11 @@ public class DataGenerator {
             if (r1.nextDouble() > 0.3){
                 price += (5 - (price % 5))%5;
             }
+
+            int userId = r1.nextInt(10) + 1;
+
             price = price / 100;
-            BuyOrder order = new BuyOrder(UUID.randomUUID(), volume, price, symbol, new Date());
+            BuyOrder order = new BuyOrder(UUID.randomUUID(), userId, volume, price, symbol, new Date());
             orders.add(order);
         }
 
@@ -39,7 +43,7 @@ public class DataGenerator {
         List<BuyOrder> orders = generateBuyOrder(symbol, orderQty, meanPrice, variance);
 
         String filename = symbol+ Math.random() + ".orders";
-        PrintWriter writer = new PrintWriter(filename, "UTF-8");
+        PrintWriter writer = new PrintWriter(filename, StandardCharsets.UTF_8);
 
         for (BuyOrder order : orders){
             writer.println(order.toString());

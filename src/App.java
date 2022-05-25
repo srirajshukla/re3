@@ -18,12 +18,12 @@ public class App {
         System.out.println(id2);
         System.out.println(id3);
 
-        ob.addOrder(new BuyOrder(UUID.randomUUID(), 10, 23.02, "GOOG", new Date()));
-        ob.addOrder(new BuyOrder(UUID.randomUUID(), 12, 22.02, "GOOG", new Date()));
-        ob.addOrder(new SellOrder(UUID.randomUUID(), 10, 23.02, "GOOG", new Date()));
-        ob.addOrder(new BuyOrder(id2, 2, 27.02, "GOOG", new Date()));
-        ob.addOrder(new BuyOrder(id1, 17, 23.02, "GOOG", new Date()));
-        ob.addOrder(new SellOrder(id3, 11, 22.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 1, 10, 23.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(UUID.randomUUID(), 2,12, 22.02, "GOOG", new Date()));
+        ob.addOrder(new SellOrder(UUID.randomUUID(), 3,10, 23.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(id2, 2, 1, 27.02, "GOOG", new Date()));
+        ob.addOrder(new BuyOrder(id1, 17, 4, 23.02, "GOOG", new Date()));
+        ob.addOrder(new SellOrder(id3, 11, 2, 22.02, "GOOG", new Date()));
 
         System.out.println(ob);
 

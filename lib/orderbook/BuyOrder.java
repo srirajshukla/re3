@@ -5,9 +5,10 @@ import java.util.UUID;
 
 public class BuyOrder extends Order implements Comparable<BuyOrder> {
 
-    public BuyOrder(UUID id, int volume, double price, String symbol, Date timestamp) {
+    public BuyOrder(UUID id, int userId, int volume, double price, String symbol, Date timestamp) {
         super();
         this.id = id;
+        this.userId = userId;
         this.volume = volume;
         this.price = price;
         this.symbol = symbol;
