@@ -2,26 +2,9 @@ package orderbook;
 
 import java.util.UUID;
 
-class ListNode{
-    ListNode next;
-    ListNode prev;
-    Order order;
-    
-    public ListNode(ListNode prev, ListNode next, Order order){
-        this.prev = prev;
-        this.next = next;
-        this.order = order;
-    }
-
-    @Override
-    public String toString(){
-        return order.toString();
-    }
-}
-
 public class DoubleLinkedList {
-    ListNode head;
-    ListNode tail;
+    public ListNode head;
+    public ListNode tail;
 
     public DoubleLinkedList(){
         head = null;

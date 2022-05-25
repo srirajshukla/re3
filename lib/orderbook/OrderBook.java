@@ -9,8 +9,8 @@ public class OrderBook {
     OrderTree<BuyOrder> buyTree;
     OrderTree<SellOrder> sellTree;
 
-    PriceNode<Integer, BuyOrder> bestBuy;
-    PriceNode<Integer, SellOrder> bestSell;
+    public PriceNode<Integer, BuyOrder> bestBuy;
+    public PriceNode<Integer, SellOrder> bestSell;
 
     HashMap<UUID, ListNode> orderIdToNode;
 
@@ -168,6 +168,22 @@ public class OrderBook {
         }
 
         return lst;
+    }
+
+    public BuyOrder getBestBuy(){
+        if (bestBuy.orders.head.order instanceof BuyOrder) {
+            BuyOrder buyorder = (BuyOrder) bestBuy.orders.head.order;
+        return buyorder;
+        }
+        return null;
+    }
+
+    public SellOrder getBestSell(){
+        if (bestSell.orders.head.order instanceof SellOrder) {
+            SellOrder sellorder = (SellOrder) bestSell.orders.head.order;
+        return sellorder;
+        }
+        return null;
     }
 
     @Override
