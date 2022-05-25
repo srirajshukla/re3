@@ -58,53 +58,54 @@ public class OrderBook {
         Order order = node.order;
         int price = (int)(order.price * 100);
 
-        // if it is the last remaining node at a price level then delete the priceNode from the tree
-        if(node.prev == null && node.next == null){
-            if(order.type==0){
-                buyTree.remove(buyTree.search(price));
-                // updating the bestBuy pointer
-                if(price == bestBuy.key){
-                    bestBuy = buyTree.treeMaximum(buyTree.root);
-                }
-            }
-            else{
-                sellTree.remove(sellTree.search(price));
-                // updating the bestSell pointer
-                if(price == bestSell.key){
-                    bestSell = sellTree.treeMinimum(sellTree.root);
-                }
-            }
-        }
-
-        // deleting the node from the Linked List
         if(order.type == 0){
-            PriceNode<Integer, BuyOrder> tree_node = buyTree.search(price);
-            if(node.prev != null && node.next!= null){
+            if(node.prev != null && node.next != null){
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
             }
-            else if(node.prev == null && node.next != null){
-                tree_node.orders.head = node.next;
-                node.next.prev = null;
+            // if it is the only remaining node at a price level then delete the priceNode from the tree
+            else if(node.prev == null && node.next == null){
+                buyTree.remove(buyTree.search(price));
+                // updating the bestBuy pointer
+                if(price == bestBuy.key)
+                    bestBuy = buyTree.treeMaximum(buyTree.root);
             }
-            else if(node.prev != null && node.next == null){
-                tree_node.orders.tail = node.prev;
-                node.prev.next = null;
+            // if it is either the head or the tail of the list
+            else{
+                PriceNode<Integer, BuyOrder> tree_node = buyTree.search(price);
+                if(node.prev == null && node.next != null){
+                    tree_node.orders.head = node.next;
+                    node.next.prev = null;
+                }
+                else if(node.prev != null && node.next == null){
+                    tree_node.orders.tail = node.prev;
+                    node.prev.next = null;
+                }
             }
         }
         else{
-            PriceNode<Integer, SellOrder> tree_node = sellTree.search(price);
             if(node.prev != null && node.next!= null){
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
             }
-            else if(node.prev == null && node.next != null){
-                tree_node.orders.head = node.next;
-                node.next.prev = null;
+            // if it is the only remaining node at a price level then delete the priceNode from the tree
+            else if(node.prev == null && node.next == null){
+                sellTree.remove(sellTree.search(price));
+                // updating the bestSell pointer
+                if(price == bestSell.key)
+                    bestSell = sellTree.treeMinimum(sellTree.root);
             }
-            else if(node.prev != null && node.next == null){
-                tree_node.orders.tail = node.prev;
-                node.prev.next = null;
+            // if it is either the head or the tail of the list
+            else{
+                PriceNode<Integer, SellOrder> tree_node = sellTree.search(price);
+                if(node.prev == null && node.next != null){
+                    tree_node.orders.head = node.next;
+                    node.next.prev = null;
+                }
+                else if(node.prev != null && node.next == null){
+                    tree_node.orders.tail = node.prev;
+                    node.prev.next = null;
+                }
             }
         }
 
