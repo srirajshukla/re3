@@ -47,7 +47,7 @@ public class OrderBook {
         ListNode list_node = tree_node.orders.add(order);
         orderIdToNode.put(order.id, list_node);
 
-        if(bestSell.key == null || key > bestSell.key){
+        if(bestSell.key == null || key < bestSell.key){
             bestSell = tree_node;
         }
     }
@@ -63,25 +63,51 @@ public class OrderBook {
             if(order.type==0){
                 buyTree.remove(buyTree.search(price));
                 // updating the bestBuy pointer
-                if(price == bestBuy.key && bestBuy.orders.head == null){
+                if(price == bestBuy.key){
                     bestBuy = buyTree.treeMaximum(buyTree.root);
                 }
             }
             else{
                 sellTree.remove(sellTree.search(price));
                 // updating the bestSell pointer
-                if(price == bestSell.key && bestSell.orders.head == null){
-                    bestSell = sellTree.treeMaximum(sellTree.root);
+                if(price == bestSell.key){
+                    bestSell = sellTree.treeMinimum(sellTree.root);
                 }
             }
         }
 
         // deleting the node from the Linked List
-        if(node.prev == null){
-            // not sure how to do this in O(1) time
+        if(order.type == 0){
+            PriceNode<Integer, BuyOrder> tree_node = buyTree.search(price);
+            if(node.prev != null && node.next!= null){
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }
+            else if(node.prev == null && node.next != null){
+                tree_node.orders.head = node.next;
+                node.next.prev = null;
+            }
+            else if(node.prev != null && node.next == null){
+                tree_node.orders.tail = node.prev;
+                node.prev.next = null;
+            }
         }
-        else
-            node.prev.next = node.next;
+        else{
+            PriceNode<Integer, SellOrder> tree_node = sellTree.search(price);
+            if(node.prev != null && node.next!= null){
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }
+            else if(node.prev == null && node.next != null){
+                tree_node.orders.head = node.next;
+                node.next.prev = null;
+            }
+            else if(node.prev != null && node.next == null){
+                tree_node.orders.tail = node.prev;
+                node.prev.next = null;
+            }
+        }
+
         orderIdToNode.remove(id);
     }
     

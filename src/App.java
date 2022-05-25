@@ -31,6 +31,8 @@ public class App {
         ob.updateOrderVolume(id2, 5);
         ob.updateOrderPrice(id3, 23.02);
 
+        System.out.println(ob);
+
        DataGenerator dg = new DataGenerator();
        dg.writeOrdersToFile("GOOG", 1000, 20, 0.25);
 
@@ -39,7 +41,7 @@ public class App {
             ob.addOrder(order);
         }
 
-        System.out.println(ob);
+
 
         List<SellOrder> lst = ob.getSellOrders();
         System.out.println(lst);
